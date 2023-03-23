@@ -8,12 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Detalle_Pedido extends Model
 {
     use HasFactory;
-    protected $table = "detalle_Pedido";
+    protected $table = 'detalle_pedidos';
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class);
+    }
 
     //relaciones inversas
-    public function pedido(){
+    public function pedido()
+    {
         return $this->belongsTo(Pedido::class);
     }
     
-    }
+}
  

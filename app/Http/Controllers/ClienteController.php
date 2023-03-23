@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proveedor;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
 
-class ProveedorController extends Controller
+class ClienteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $productos = Proveedor::all();
-        return view('proveedores.index', compact('proveedores'));
+        $clientes = Cliente::all();
+        return view('cliente.index', compact('clientes'));
     }
 
     /**
@@ -37,8 +37,8 @@ class ProveedorController extends Controller
      */
     public function show(string $id)
     {
-        $proveedor = Proveedor::find($id);
-        return view('proveedores.show', compact('proveedor'));
+        $cliente = Cliente::find($id);
+        return view('clientes.show', compact('cliente'));
     }
 
     /**

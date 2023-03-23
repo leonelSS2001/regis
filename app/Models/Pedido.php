@@ -8,10 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Pedido extends Model
 {
     use HasFactory;
-    public function Cliente(){
+    protected $table = 'pedidos';
+    
+    public function cliente()
+    {
         return $this->belongsTo(Cliente::class);
     }
-    public function detalle_pedido(){
-        return $this->hasMany(Detalle_Pedido::class);
+    public function proveedor()
+    {
+        return $this->belongsTo(Proveedor::class);
+    }
+    public function detallePedidos()
+    {
+        return $this->hasMany(DetallePedido::class);
     }
 }

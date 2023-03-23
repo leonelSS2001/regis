@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Cliente extends Model
 {
     use HasFactory;
-    //definiendo relaciones inversas 
-    public function pedido(){
+    //definiendo relaciones inversas
+    protected $table = 'clientes';
+
+    public function pedidos()
+    {
         return $this->hasMany(Pedido::class);
     }
 }
-
-
- 
