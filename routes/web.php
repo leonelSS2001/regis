@@ -30,5 +30,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/admin', [HomeController::class, 'dash'])->name('admin.dash')->middleware('auth.admin');
 Route::resource('clientes', ClienteController::class)->middleware('auth.admin');
 Route::resource('categorias', CategoriaController::class)->middleware('auth.admin');
+Route::resource('productos', ProductoController::class);
+Route::resource('pedidos', PedidoController::class);
+Route::get('/productos', [ProductoController::class, 'index']);
+Auth::routes();
 
-// 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

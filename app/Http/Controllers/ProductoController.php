@@ -12,8 +12,16 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
-        return view('producto.index', compact('productos'));
+        try{
+            $productos = Producto::all();
+            return $productos;
+
+       }catch(\Exception $e){
+           return $e->getMessage();
+       }
+   
+        //$productos = Producto::all();
+        //return view('producto.index', compact('productos'));
     }
 
     /**
@@ -21,7 +29,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        //
+        return view();
     }
 
     /**
