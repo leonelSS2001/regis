@@ -15,7 +15,7 @@ return [
     */
 
     'title' => '',
-    'title_prefix' => 'Registros ',
+    'title_prefix' => 'Registros | ',
     'title_postfix' => '',
 
     /*
@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Registros</b>',
+    'logo' => '<b>Registros</b>App',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -107,7 +107,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
@@ -302,88 +302,50 @@ return [
         ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
+      
         [
             'text'        => 'Inicio',
             'url'         => '/home',
-            'icon'        => 'far fw-fw fa-home ',
             'icon_color'  => 'primary',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'icon'        =>'fas fw fa-home',
         ],
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
+            'text'    => 'Categorias y Proveedores',
+            'icon'    => 'fas fa-align-justify',
+            'icon_color'  => 'primary',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text' => 'Categorias de productos',
+                    'route'  => 'categorias.create',
+                    'icon'    => 'fas fw fa-registered',
                 ],
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'Proveedores de productos',
+                    'route'  => 'pro.create',
+                    'icon'    => 'fas fw fa-registered',
                 ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
+
             ],
         ],
-        ['header' => 'labels'],
         [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
+            'text'        => 'Productos',
+            'route'         => 'productos.create',
+            'icon_color'  => 'primary',
+            'icon'        =>'fas fw fa-car',
         ],
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
+            'text'        => 'Detalle_pedidos',
+            'route'       => 'det.create',
+            'icon_color'  => 'primary',
+            'icon'        =>'fas fw fa-truck',
         ],
         [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+            'text'        => 'Pedidos',
+            'route'       => 'pedidos.create',
+            'icon_color'  => 'primary',
+            'icon'        =>'fas fw fa-truck',
+        ]
+        
     ],
 
     /*

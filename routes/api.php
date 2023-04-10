@@ -6,7 +6,8 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ClienteController;
-
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\DetallePedidoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,7 +23,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('categorias', CategoriaController::class);
-Route::resource('productos', ProductoController::class);
+Route::resource('categorias',CategoriaController::class);
+Route::resource('productos',ProductoController::class);
 Route::resource('proveedores',ProveedorController::class);
 Route::resource('clientes',ClienteController::class);
+Route::resource('pedidos',PedidoController::class);
+Route::resource('detalle',DetallePedidoController::class);
+//Route::resource('home',HomeController::class);

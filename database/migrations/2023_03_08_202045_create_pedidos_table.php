@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->date('fecha');
             $table->decimal('monto',8,2);
-            $table->string('estado',30);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('producto_id');
+            $table->foreign('producto_id')->references('id')->on('productos');
             $table->timestamps();
         });
     }

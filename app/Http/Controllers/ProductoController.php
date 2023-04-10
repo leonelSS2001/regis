@@ -13,15 +13,18 @@ class ProductoController extends Controller
     public function index()
     {
         try{
-            $productos = Producto::all();
-            return $productos;
-
-       }catch(\Exception $e){
-           return $e->getMessage();
-       }
-   
-        //$productos = Producto::all();
-        //return view('producto.index', compact('productos'));
+            $producto = Producto::all();
+            $response = $producto->toArray();
+            $i=0;
+            foreach($producto as $ea){
+                $response[$i]["proveedor"] = $ea->proveedor->toArray();
+                $response[$i]["categoria"] = $ea->categoria->toArray();
+                $i++;  
+            }
+            return $response;
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -29,7 +32,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        return view();
+        return view('admin.productos');
     }
 
     /**
@@ -37,7 +40,22 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $producto = new Producto();
+            $producto->nombre = $request->nombre;
+            $producto->precio = $request->precio;
+            $producto->existencia = $request->existencia;
+            $producto->imagen =$request->imagen;
+            $producto->proveedor_id = $request->proveedor['id'];
+            $producto->categoria_id = $request->categoria['id'];
+            if($producto->save() >= 1){
+                return response()->json(['status'=>'ok','data'=>$producto],201);
+            }else{
+                return response()->json(['status'=>'fail','data'=>null],409);
+            }
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -45,8 +63,12 @@ class ProductoController extends Controller
      */
     public function show(string $id)
     {
-        $producto = Producto::find($id);
-        return view('productos.show', compact('producto'));
+        try{
+            $producto = Producto::findOrfail($id);
+            return $producto;
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -62,7 +84,19 @@ class ProductoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            $producto = Producto::findOrfail($id);
+            $producto->nombre = $request->nombre;
+            $producto->precio = $request->precio;
+            $producto->existencia = $request->existencia;
+            $producto->proveedor_id = $request->proveedor['id'];
+            $producto->categoria_id = $request->categoria['id'];
+            if($producto->update() >=1){
+                return response()->json(['status' =>'ok','data'=>$producto]);
+            }
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -70,6 +104,13 @@ class ProductoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+            $ca = Producto::findOrFail($id);
+            if($ca->delete()>=1){
+                return response()->json(['status'=>'ok', 'data'=>null], 200);
+            }
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 }

@@ -7,8 +7,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\DetallePedidoController;
 use App\Http\Controllers\LoginController;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; 
 
 /*
 |--------------------------------------------------------------------------
@@ -25,14 +26,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/admin', [HomeController::class, 'dash'])->name('admin.dash')->middleware('auth.admin');
-Route::resource('clientes', ClienteController::class)->middleware('auth.admin');
-Route::resource('categorias', CategoriaController::class)->middleware('auth.admin');
-Route::resource('productos', ProductoController::class);
-Route::resource('pedidos', PedidoController::class);
-Route::get('/productos', [ProductoController::class, 'index']);
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/admin', [HomeController::class, 'dash'])->name('dash');
+//Route::resource('clientes', ClienteController::class)->middleware('auth.admin');
+Route::resource('categorias', CategoriaController::class);
+Route::resource('productos', ProductoController::class);
+Route::resource('pedidos', PedidoController::class);
+Route::resource('pro', ProveedorController::class);
+Route::resource('det', DetallePedidoController::class);
+//Route::get('/productos', [ProductoController::class, 'index']);
+//Route::get('/pedidos', [PedidoController::class, 'index']);
+

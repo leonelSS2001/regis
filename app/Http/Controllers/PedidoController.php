@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetallePedido;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PedidoController extends Controller
 {
@@ -12,8 +14,19 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        $pedidos =  Pedido::all();
-        return view('pedidos.index', compact('pedidos'));
+        try{
+            $pedido = Pedido::all();
+            $response = $pedido->toArray();
+            $i=0;
+            foreach($pedido as $ea){
+                $response[$i]["usuario"] = $ea->user->toArray();
+                $response[$i]["producto"] = $ea->producto->toArray();
+                $i++;  
+            }
+            return $response;
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -21,7 +34,7 @@ class PedidoController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pedido');
     }
 
     /**
@@ -29,7 +42,37 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $errores = 0;
+            DB::beginTransaction();
+            $ae = new Pedido();
+            $ae->fecha =$request->fecha;
+            $ae->monto = $request->monto;
+            $ae->user_id =  $request->user['id'];
+            $ae->producto_id =  $request->producto['id'];
+            if($ae->save()<=0){
+            $errores++;    
+            }
+            $detalle = $request->Pedido;
+            foreach($detalle as $key => $det){
+                $detallePedido = new DetallePedido();
+                $detallePedido->cantidad = "1";
+                $detallePedido->fecha_pedido = $det["fecha_pedido"];
+                $detallePedido->pedido_id = $ae->id;
+                if($detallePedido->save()<=0){
+                    $errores++;
+                   }
+                   if ($errores == 0){
+                    DB::commit();
+                    return response()->json(['status'=>'ok', 'data'=>$ae], 200);
+                }else{
+                    DB::rollback();
+                    return response()->json(['status'=>'fail', 'data'=>$detallePedido], 409);
+                }
+            } 
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -37,8 +80,12 @@ class PedidoController extends Controller
      */
     public function show(string $id)
     {
-        $pedido = Pedido::find($id);
-        return view('pedidos.show', compact('pedido'));
+        try{
+            $pedido = Pedido::findOrfail($id);
+            return $pedido;
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -54,7 +101,15 @@ class PedidoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            $pedido = Pedido::findOrfail($id);
+            $pedido->fecha = $request->fecha;
+            if($pedido->update() >=1){
+                return response()->json(['status' =>'ok','data'=>$pedido]);
+            }
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
     }
 
     /**

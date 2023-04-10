@@ -12,9 +12,9 @@ class Producto extends Model
 
     protected $table = 'productos';
 
-    public function categorias()
+    public function categoria()
     {
-        return $this->belongsToMany(Categoria::class);
+        return $this->belongsTo(Categoria::class);
     }
 
     public function proveedor()
@@ -22,9 +22,9 @@ class Producto extends Model
         return $this->belongsTo(Proveedor::class);
     }
     
-    public function detallePedidos()
+    public function pedido()
     {
-        return $this->hasMany(DetallePedido::class);
+        return $this->hasMany(Pedido::class);
     }
 
 }

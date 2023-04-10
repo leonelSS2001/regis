@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('detalles_pedidos', function (Blueprint $table) {
             $table->id();
-            $table->string('cantidad',15)->unique();    
+            $table->string('cantidad',15);
+            $table->date('fecha_pedido');
+            $table->unsignedBigInteger('pedido_id');
+            $table->foreign('pedido_id')->references('id')->on('pedidos');       
             $table->timestamps();
         });
     }

@@ -2,19 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proveedor;
+use App\Models\DetallePedido;
 use Illuminate\Http\Request;
 
-class ProveedorController extends Controller
+class DetallePedidoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        try{ 
-            $pro = Proveedor::all();
-            return $pro; 
+        try{
+            $detail = DetallePedido::all();
+            $response = $detail->toArray();
+            $i=0;
+            foreach($detail as $ea){
+                $response[$i]["pedido"] = $ea->pedido->toArray();
+                
+              $i++;  
+            }
+            return $response;
         }catch(\Exception $e){
             return $e->getMessage();
         }
@@ -25,7 +32,7 @@ class ProveedorController extends Controller
      */
     public function create()
     {
-        return view('admin.proveedor');
+        return view('admin.detalles');
     }
 
     /**
@@ -34,8 +41,10 @@ class ProveedorController extends Controller
     public function store(Request $request)
     {
         try{
-            $ae = new Proveedor();
-            $ae->nombre = $request->nombre;
+            $ae = new DetallePedido();
+            $ae->cantidad = $request->cantidad;
+            $ae->fecha_pedido = $request->fecha_pedido;
+            $ae->pedidos_id = $request->pedido['id'];
             if($ae->save()>=1){
                 return response()->json(['status'=>'ok', 'data'=>$ae], 201);
             } else {
@@ -52,8 +61,12 @@ class ProveedorController extends Controller
     public function show(string $id)
     {
         try{
-            $pro= Proveedor::findOrfail($id);
-            return $pro;
+            $ae = DetallePedido::findOrFail($id);
+            $response = $ae->toArray();
+            $i=0;
+              $response[$i]["pedido"] = $ae->pedido->toArray(); 
+            //dd($response);
+            return $response;
         }catch(\Exception $e){
             return $e->getMessage();
         }
@@ -73,10 +86,14 @@ class ProveedorController extends Controller
     public function update(Request $request, string $id)
     {
         try{
-            $pro = Proveedor::findOrfail($id);
-            $pro->nombre = $request->nombre;
-            if($pro->update() >=1){
-                return response()->json(['status' =>'ok','data'=>$pro], 202);
+            $ae = new DetallePedido();
+            $ae->cantidad = $request->cantidad;
+            $ae->fecha_pedido = $request->fecha_pedido;
+            $ae->pedidos_id = $request->pedido['id'];
+            if ($ae->update() >= 1){
+                return response()->json(['status'=>'ok', 'data'=>$ae], 202);
+            } else {
+                return response()->json(['status'=>'fail', 'data'=>null], 409);   
             }
         }catch(\Exception $e){
             return $e->getMessage();
@@ -89,10 +106,10 @@ class ProveedorController extends Controller
     public function destroy(string $id)
     {
         try{
-            $pro = Proveedor::findOrFail($id);
-            if($pro->delete()>=1){
-                return response()->json(['status'=>'ok', 'data'=>null], 200);
-            }
+           $ae = DetallePedido::findOrFail($id);
+           if($ae->delete() >= 1){
+            return response()->json(['status'=>'ok', 'data'=>null], 200);
+           }
         }catch(\Exception $e){
             return $e->getMessage();
         }

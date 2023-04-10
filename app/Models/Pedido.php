@@ -10,13 +10,13 @@ class Pedido extends Model
     use HasFactory;
     protected $table = 'pedidos';
     
-    public function cliente()
+    public function user()
     {
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo(User::class);
     }
-    public function proveedor()
+    public function producto()
     {
-        return $this->belongsTo(Proveedor::class);
+        return $this->belongsTo(Producto::class);
     }
     public function detallePedidos()
     {
